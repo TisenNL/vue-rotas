@@ -1,8 +1,9 @@
 <template>
   <div>
     <h3 class="font-weight-light">
-      Detalhes sobre o Contato com id: {{ $route.params.id }}
+      Detalhes sobre o Contato com id: {{ id }}
     </h3>
+    <p>Parâmetros: {{ parametros }}</p>
     <router-link
       :to="`/contatos/${id}/editar`"
       class="btn btn-primary"
@@ -13,24 +14,23 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
 export default {
+  props: {
+    id: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {
-      id: this.$route.params.id,
-    };
+      parametros: this.$route.params
+    }
   },
-  // watch: {
-  //     // eslint-disable-next-line no-unused-vars
-  //     '$route'(to, from) {
-  //         this.id = to.params.id
-  //     }
-  // },
   beforeRouteUpdate(to, from, next) {
-    this.id = to.params.id;
-    next();
-  },
-  created() {
-    console.log("Parâmetros da rota: ", this.$route.params);
-  },
+    console.log('beforeRouteUpdate')
+    this.parametros = to.params
+    next()
+  }
 };
 </script>

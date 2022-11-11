@@ -9,7 +9,7 @@
 
       <router-link
         class="btn btn-info mb-4 mr-2"
-        to="/"
+        to="/home"
         exact
       >Home</router-link>
       <router-link
