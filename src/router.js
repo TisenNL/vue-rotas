@@ -2,16 +2,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import AppContatos from './views/contatos/AppContatos.vue'
-import ContatosHome from './views/contatos/ContatosHome.vue'
-import ContatoDetalhes from './views/contatos/ContatoDetalhes.vue'
-import ContatoEditar from './views/contatos/ContatoEditar.vue'
 import AppErro404 from './views/AppErro404.vue'
 import Erro404Contatos from './views/contatos/Erro404Contatos.vue'
-import AppHome from './views/AppHome.vue'
 import AppLogin from './views/login/AppLogin.vue'
 
 import EventBus from '@/event-bus'
+
+const AppContatos = () => import(/* webpackChunkName: "contatos" */'./views/contatos/AppContatos.vue')
+const ContatosHome = () => import(/* webpackChunkName: "contatos" */'./views/contatos/ContatosHome.vue')
+const ContatoDetalhes = () => import(/* webpackChunkName: "contatos" */'./views/contatos/ContatoDetalhes.vue')
+const ContatoEditar = () => import(/* webpackChunkName: "contatos" */'./views/contatos/ContatoEditar.vue')
+const AppHome = () => import('./views/AppHome.vue')
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,22 @@ const extrairParametroId = route => ({ id: +route.params.id })
 const router = new VueRouter({
   mode: 'history',
   linkActiveClass: 'active',
+  scrollBehavior(to, from, savedPosition){
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if(savedPosition) {
+          return resolve(savedPosition)
+        }
+        if (to.hash) {
+          return resolve ({
+            selector: to.hash,
+            offset: { x: 0, y: 0 }
+          })
+        }
+        resolve ({ x: 0, y: 0 })
+      },3000)
+    })
+  },
   routes: [
     { 
       path: '/contatos', 
